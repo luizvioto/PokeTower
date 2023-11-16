@@ -241,7 +241,7 @@ void pokemon::imprime() const {
     cout << "Nome: " << get_nome() << endl;
     cout << "HP: " << get_HP() << endl;
     cout << "Att: " << get_Att() << endl;
-    cout << "Nivel: " << get_nvl() << endl 
+    cout << "Nivel: " << get_nvl() << endl; 
     cout << "Def: " << get_Def() << endl << endl;
 }
 
