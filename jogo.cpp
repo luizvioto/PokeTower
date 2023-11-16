@@ -17,6 +17,8 @@
 #include <ctime>
 using namespace std;
 
+int aleatorio();
+
 class pokemon {
 
 private:
@@ -114,7 +116,7 @@ pokemon rattata("Rattata", 30, 56, 35, 3);
 pokemon pidgey("Pidgey", 40, 45, 40, 2);
 pokemon weedle("Weedle", 40, 35, 30, 1);
 
-pokemon charmander("Charmander", 39, 52, 43, 1);
+pokemon charmander("Charmander", 39, 1000, 43, 1);
 pokemon squirtle("Squirtle", 44, 48, 65, 1);
 pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1);
 
