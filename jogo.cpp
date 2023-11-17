@@ -10,11 +10,17 @@
 // 1  - nvl 1-5 		caterpie, zubat, rattata, pidgey, weedle
 
 //Ainda falta implementar: tipo dos pokemon, sistema de nivel, sistema de evolucao
+//Corrigir: 1- ao reiniciar a torre, os pokemons sao os mesmos
+//          2- pokemon nao esta reiniciando a vida para a proxima batalha
+//          3- ganho de XP nao esta funcionando corretamente
+
 
 #include <iostream>
 #include <windows.h>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
+
 using namespace std;
 
 int aleatorio();
@@ -30,10 +36,11 @@ private:
     string nome;
     static int proxID;
     int XP;
+    int speed;
 
 public:
     pokemon();
-    pokemon(string vnome, int vHP, int vAtt, int vDef, int vNvl); // Construtor Detalhado
+    pokemon(string vnome, int vHP, int vAtt, int vDef, int vNvl, int vSpeed); // Construtor Detalhado
     // Destrutor
 
     // Métodos Set
@@ -43,6 +50,7 @@ public:
     void set_nvl(int vnvl);
     void set_XP(int vXP);
     void set_Def(int vDef);
+    void set_speed(int vSpeed);
 
     // Métodos Get
     int get_HP() const;
@@ -52,79 +60,81 @@ public:
     int get_ID() const;
     int get_XP() const;
     int get_Def() const;
+    int get_speed() const;
 
     //Outros Métodos
     int realizarBatalha(pokemon &p1, pokemon &p2);
     pokemon escolhaUsuario();
     void imprime() const;
+    void ganhaXP(int vXP);
 };
 
 int pokemon::proxID = 1;
 
-pokemon mewtwo("Mewtwo", 106, 110, 90, 50);
-pokemon moltres("Moltres", 90, 100, 90, 45);
-pokemon zapdos("Zapdos", 90, 90, 85, 44);
-pokemon articuno("Articuno", 90, 85, 100, 43);
-pokemon dragonite("Dragonite", 91, 100, 95, 42);
-pokemon mew("Mew", 100, 100, 100, 41);
+pokemon mewtwo("Mewtwo", 106, 110, 90, 50, 130);
+pokemon moltres("Moltres", 90, 100, 90, 45, 90);
+pokemon zapdos("Zapdos", 90, 90, 85, 44, 100);
+pokemon articuno("Articuno", 90, 85, 100, 43, 85);
+pokemon dragonite("Dragonite", 91, 100, 95, 42, 80);
+pokemon mew("Mew", 100, 100, 100, 41, 100);
 
-pokemon arcanine("Arcanine", 90, 110, 80, 40);
-pokemon gengar("Gengar", 60, 110, 60, 39);
-pokemon gyarados("Gyarados", 95, 125, 79, 38);
-pokemon exeguttor("exeguttor", 95, 95, 85, 37);
-pokemon alakazam("Alakazam", 70, 130, 50,36);
+pokemon arcanine("Arcanine", 90, 110, 80, 40, 95);
+pokemon gengar("Gengar", 60, 110, 60, 39, 110);
+pokemon gyarados("Gyarados", 95, 125, 79, 38, 81);
+pokemon exegguttor("Exegguttor", 95, 95, 85, 37, 55);
+pokemon alakazam("Alakazam", 70, 130, 50, 36, 120);
 
-pokemon snorlax("Snorlax", 160, 100, 65, 35);
-pokemon lapras("Lapras", 130, 95, 80, 34);
-pokemon jolteon("Jolteon", 70, 100, 60, 33);
-pokemon flareon("Flareon", 70, 100, 60, 32);
-pokemon vaporeon("Vaporeon", 70, 100, 60, 31);
+pokemon snorlax("Snorlax", 160, 100, 65, 35, 30);
+pokemon lapras("Lapras", 130, 95, 80, 34, 60);
+pokemon jolteon("Jolteon", 70, 100, 60, 33, 130);
+pokemon flareon("Flareon", 70, 100, 60, 32, 65);
+pokemon vaporeon("Vaporeon", 70, 100, 60, 31, 65);
 
-pokemon nidoking("Nidoking", 81, 98, 77, 30);
-pokemon pidgeot("Pidgeot", 83, 92, 75, 29);
-pokemon machamp("Machamp", 90, 94, 80, 28);
-pokemon rhydon("Rhydon", 105, 90, 120, 27);
-pokemon raichu("Raichu", 60, 88, 55, 26);
+pokemon nidoking("Nidoking", 81, 98, 77, 30, 85);
+pokemon pidgeot("Pidgeot", 83, 92, 75, 29, 101);
+pokemon machamp("Machamp", 90, 94, 80, 28, 55);
+pokemon rhydon("Rhydon", 105, 90, 120, 27, 40);
+pokemon raichu("Raichu", 60, 88, 55, 26, 110);
 
-pokemon primeape("Primeape", 65, 89, 60, 25);
-pokemon dragonair("Dragonair", 61, 84, 65, 24);
-pokemon rapidash("Rapidash", 65, 87, 70, 23);
-pokemon victreebel("Victreebel", 80, 87, 65, 22);
-pokemon muk("Muk", 105, 80, 75, 21);
+pokemon primeape("Primeape", 65, 89, 60, 25, 95);
+pokemon dragonair("Dragonair", 61, 84, 65, 24, 70);
+pokemon rapidash("Rapidash", 65, 87, 70, 23, 105);
+pokemon victreebel("Victreebel", 80, 87, 65, 22, 70);
+pokemon muk("Muk", 105, 80, 75, 21, 50);
 
-pokemon onix("Onix", 35, 70, 160, 20);
-pokemon hitmonchan("Hitmochan", 50, 100, 53, 19);
-pokemon hitmonlee("Hitmonlee", 50, 100, 79, 18);
-pokemon machoke("Machoke", 80, 98, 70, 17);
-pokemon golduck("Golduck", 80, 82, 78, 16);
+pokemon onix("Onix", 35, 70, 160, 20, 70);
+pokemon hitmonchan("Hitmochan", 50, 100, 53, 19, 76);
+pokemon hitmonlee("Hitmonlee", 50, 100, 79, 18, 87);
+pokemon machoke("Machoke", 80, 98, 70, 17, 45);
+pokemon golduck("Golduck", 80, 82, 78, 16, 85);
 
-pokemon haunter("Haunter", 45, 50, 45, 15);
-pokemon pidgeotto("Pidgeotto", 63, 60, 55, 14);
-pokemon rhyhorn("Rhyhorn", 80, 85, 95, 13);
-pokemon arbok("Arbok", 60, 85, 69, 12);
-pokemon sandslash("Sandslah", 75, 70, 90, 11);
+pokemon haunter("Haunter", 45, 50, 45, 15, 95);
+pokemon pidgeotto("Pidgeotto", 63, 60, 55, 14, 71);
+pokemon rhyhorn("Rhyhorn", 80, 85, 95, 13, 25);
+pokemon arbok("Arbok", 60, 85, 69, 12, 80);
+pokemon sandslash("Sandslash", 75, 70, 90, 11, 65);
 
-pokemon geodude("Geodude", 40, 60, 100, 10);
-pokemon nidoran("Nidoran", 46, 57, 40, 9);
-pokemon ekans("Ekans", 35, 60, 44, 8);
-pokemon pikachu("Pikachu", 35, 60, 44, 7);
-pokemon mankey("Mankey", 40, 80, 35, 6);
+pokemon geodude("Geodude", 40, 60, 100, 10, 20);
+pokemon nidoran("Nidoran", 46, 57, 40, 9, 40);
+pokemon ekans("Ekans", 35, 60, 44, 8, 55);
+pokemon pikachu("Pikachu", 35, 60, 44, 7, 90);
+pokemon mankey("Mankey", 40, 80, 35, 6, 70);
 
-pokemon caterpie("Caterpie", 45, 30, 35, 5);
-pokemon zubat("Zubat", 40, 45, 35, 4);
-pokemon rattata("Rattata", 30, 56, 35, 3);
-pokemon pidgey("Pidgey", 40, 45, 40, 2);
-pokemon weedle("Weedle", 40, 35, 30, 1);
+pokemon caterpie("Caterpie", 45, 30, 35, 5, 45);
+pokemon zubat("Zubat", 40, 45, 35, 4, 55);
+pokemon rattata("Rattata", 30, 56, 35, 3, 72);
+pokemon pidgey("Pidgey", 40, 45, 40, 2, 56);
+pokemon weedle("Weedle", 40, 35, 30, 1, 50);
 
-pokemon charmander("Charmander", 39, 1000, 43, 1);
-pokemon squirtle("Squirtle", 44, 48, 65, 1);
-pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1);
+pokemon charmander("Charmander", 39, 52, 43, 1, 65);
+pokemon squirtle("Squirtle", 44, 48, 65, 1, 43);
+pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1, 45);
 
 pokemon::pokemon():ID(++proxID){
     nome = "Indefinido";
 }
 
-pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef ,int vNvl){
+pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpeed){
     
     ID = proxID++;
     set_nome(vnome);
@@ -133,6 +143,7 @@ pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef ,int vNvl){
     set_nvl(vNvl);
     set_XP(0);
     set_Def(vDef);
+    set_speed(vSpeed);
 }
 
 int pokemon::get_ID() const {
@@ -163,6 +174,10 @@ int pokemon::get_Def() const {
     return Def;
 }
 
+int pokemon::get_speed() const {
+        return speed;
+}
+
 void pokemon::set_HP(int vHP) {
     HP = (vHP >= 0) ? vHP : 0;
 }
@@ -187,35 +202,124 @@ void pokemon::set_Def(int vDef) {
     Def = vDef;
 }
 
+void pokemon::set_speed(int vSpeed) {
+        speed = vSpeed;
+}
 
 bool realizarBatalha(pokemon p1, pokemon p2) {
     int hpP1 = p1.get_HP();
     int hpP2 = p2.get_HP();
 
     while ((hpP1 > 0) && (hpP2 > 0)) {
-        int atacante;
+        int maisRapido;
+        maisRapido = (p1.get_speed() >= p2.get_speed()) ? 1 : 2;
 
-        cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
-        cout << "|";
-        for(int i = 0; i<hpP1; i++) cout << "x";
-        for(int i = 0; i<(p1.get_HP()-hpP1);i++) cout << "_";
-        cout << "|" << endl;
+        int dano; // (((2*NVL*ATT)/DEF)/50 + 2) * multiplicador aleatorio(de 0.85 a 1.00) * multiplicador de tipo(0.5, 1.0 ou 2.0)
 
-        cout << endl << "HP de " << p2.get_nome() << ": " << hpP2 << " / " << p2.get_HP() << endl;
-        cout << "|";
-        for(int i = 0; i<hpP2; i++) cout << "x";
-        for(int i = 0; i<(p2.get_HP()-hpP2);i++) cout << "_";
-        cout << "|" << endl;
+        if (maisRapido == 1) {
+            dano = (2 * p1.get_nvl() * p1.get_Att())/p2.get_Def() + aleatorio();
+            cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
+            hpP2 -= dano;
 
-        cout << "Quem esta atacando? (1 para " << p1.get_nome() << " e 2 para " << p2.get_nome() << ")" << endl;
-        cin >> atacante;
+            cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
+            cout << "|";
+            for(int i = 0; i<hpP1; i++) cout << "x";
+            for(int i = 0; i<(p1.get_HP()-hpP1);i++) cout << "_";
+            cout << "|" << endl;
 
-        if (atacante == 1) {
-            cout << endl << p1.get_nome() << " atacou com " << p1.get_Att() << " de dano!" << endl;
-            hpP2 -= p1.get_Att();
-        } else {
-            cout << endl << p2.get_nome() << " atacou com " << p2.get_Att() << " de dano!" << endl;
-            hpP1 -= p2.get_Att();
+            cout << endl << "HP de " << p2.get_nome() << ": " << hpP2 << " / " << p2.get_HP() << endl;
+            cout << "|";
+            for(int i = 0; i<hpP2; i++) cout << "x";
+            for(int i = 0; i<(p2.get_HP()-hpP2);i++) cout << "_";
+            cout << "|" << endl;
+
+            cout << ".";
+            Sleep(1000);
+            cout << ".";
+            Sleep(1000);
+            cout << ".";
+            Sleep(1000);
+            cout << endl;
+
+            if(hpP2 > 0) {
+                dano = (2 * p2.get_nvl() * p2.get_Att())/p1.get_Def() + aleatorio();
+                cout << endl << p2.get_nome() << " atacou com " << dano << " de dano!" << endl;
+                hpP1 -= dano;
+                cout << ".";
+
+                cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
+                cout << "|";
+                for(int i = 0; i<hpP1; i++) cout << "x";
+                for(int i = 0; i<(p1.get_HP()-hpP1);i++) cout << "_";
+                cout << "|" << endl;
+
+                cout << endl << "HP de " << p2.get_nome() << ": " << hpP2 << " / " << p2.get_HP() << endl;
+                cout << "|";
+                for(int i = 0; i<hpP2; i++) cout << "x";
+                for(int i = 0; i<(p2.get_HP()-hpP2);i++) cout << "_";
+                cout << "|" << endl;
+                
+                cout << ".";
+                Sleep(1000);
+                cout << ".";
+                Sleep(1000);
+                cout << ".";
+                Sleep(1000);
+                cout << endl;
+            }
+        } 
+        
+        else {
+            dano = (2 * p2.get_nvl() * p2.get_Att())/p1.get_Def() + aleatorio();
+            cout << endl << p2.get_nome() << " atacou com " << dano << " de dano!" << endl;
+            hpP1 -= dano;
+
+            cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
+            cout << "|";
+            for(int i = 0; i<hpP1; i++) cout << "x";
+            for(int i = 0; i<(p1.get_HP()-hpP1);i++) cout << "_";
+            cout << "|" << endl;
+
+            cout << endl << "HP de " << p2.get_nome() << ": " << hpP2 << " / " << p2.get_HP() << endl;
+            cout << "|";
+            for(int i = 0; i<hpP2; i++) cout << "x";
+            for(int i = 0; i<(p2.get_HP()-hpP2);i++) cout << "_";
+            cout << "|" << endl;
+
+            cout << ".";
+            Sleep(1000);
+            cout << ".";
+            Sleep(1000);
+            cout << ".";
+            Sleep(1000);
+            cout << endl;
+
+            if(hpP1 > 0) {
+                dano = (2 * p1.get_nvl() * p1.get_Att())/p1.get_Def() + aleatorio();
+                cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
+                hpP1 -= dano;
+                cout << ".";
+
+                cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
+                cout << "|";
+                for(int i = 0; i<hpP1; i++) cout << "x";
+                for(int i = 0; i<(p1.get_HP()-hpP1);i++) cout << "_";
+                cout << "|" << endl;
+
+                cout << endl << "HP de " << p2.get_nome() << ": " << hpP2 << " / " << p2.get_HP() << endl;
+                cout << "|";
+                for(int i = 0; i<hpP2; i++) cout << "x";
+                for(int i = 0; i<(p2.get_HP()-hpP2);i++) cout << "_";
+                cout << "|" << endl;
+                
+                cout << ".";
+                Sleep(1000);
+                cout << ".";
+                Sleep(1000);
+                cout << ".";
+                Sleep(1000);
+                cout << endl;
+            }
         }
     }
 
@@ -225,16 +329,46 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
 
     if (hpP1 <= 0) { 
         cout << p2.get_nome() << " venceu!" << endl ;
+
+        int reiniciar;
+        do {
+        cout << "Digite (1) para reiniciar o desafio!" << endl;
+        cin >> reiniciar;
+        } while(reiniciar != 1);
+
+        cout << "Reiniciando o desafio";
+        cout << ".";
+        Sleep(2000);
+        cout << ".";
+        Sleep(2000);
+        cout << ".";
+        Sleep(2000);
         
-        cout << "Voce perdeu." << endl << endl;
         return false;
-    } 
+    }
+
     else { //Vitoria do Usuario
         cout << p1.get_nome() << " venceu!" << endl;
-        
-        cout << "Voce venceu!" << endl << endl;
-        return true;
 
+        int XPganho = (p2.get_Att() + p2.get_Def())/20 + p2.get_nvl();
+        p1.ganhaXP(XPganho);
+
+        int proximaBatalha;
+        do {
+        cout << "Digite (1) para iniciar a proxima batalha!" << endl;
+        cin >> proximaBatalha;
+        } while(proximaBatalha != 1);
+        
+        cout << "Iniciando proxima batalha";
+
+        cout << ".";
+        Sleep(2000);
+        cout << ".";
+        Sleep(2000);
+        cout << ".";
+        Sleep(2000);
+
+        return true;
     }
 }
 
@@ -282,6 +416,22 @@ pokemon escolhaUsuario() {
     }while(escolha !=1 && escolha !=2 && escolha !=3);
 }
 
+void pokemon::ganhaXP(int vXP) {
+    int proxNVL = pow(nvl, 2) + 5;   //XP necessario para o proximo nivel
+    int XP_res = vXP + XP;           //XP da batalha + XP de antes
+
+    while (XP_res>=proxNVL) {
+        nvl++;
+        XP_res -= proxNVL;
+        proxNVL = pow(nvl, 2) + 5;
+        cout << nome << "subiu para o nivel " << nvl << '!' << endl;
+    }
+
+    XP = XP_res;
+    cout << "XP atual: " << XP << "/" << proxNVL << endl;
+    
+}
+
 class Pilha{
     public:
     pokemon adversario[10];
@@ -321,7 +471,7 @@ class Pilha{
                 break;
                 case 3: empilha (gyarados);
                 break;
-                case 4: empilha(exeguttor);
+                case 4: empilha(exegguttor);
                 break;
                 case 5: empilha(alakazam);
                 break;
