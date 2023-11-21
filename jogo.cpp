@@ -23,7 +23,7 @@
 
 using namespace std;
 
-int aleatorio();
+int aleatorio(int x, int y);
 
 class pokemon {
 
@@ -120,7 +120,7 @@ pokemon ekans("Ekans", 35, 60, 44, 8, 55);
 pokemon pikachu("Pikachu", 35, 60, 44, 7, 90);
 pokemon mankey("Mankey", 40, 80, 35, 6, 70);
 
-pokemon caterpie("Caterpie", 45, 30, 35, 5, 45);
+pokemon caterpie("Caterpie", 45, 30, 35, 5, 42);
 pokemon zubat("Zubat", 40, 45, 35, 4, 55);
 pokemon rattata("Rattata", 30, 56, 35, 3, 72);
 pokemon pidgey("Pidgey", 40, 45, 40, 2, 56);
@@ -214,12 +214,15 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
         int maisRapido;
         maisRapido = (p1.get_speed() >= p2.get_speed()) ? 1 : 2;
 
-        int dano; // (((2*NVL*ATT)/DEF)/50 + 2) * multiplicador aleatorio(de 0.85 a 1.00) * multiplicador de tipo(0.5, 1.0 ou 2.0)
+        int dano; // (((2*NVL*ATT)/DEF)/50 + 2) * multiplicador aleatorio(de 0.85 a 1.00) * multiplicador de tipo(0.5, 1.0 ou 2.0) -> antigo
+                  // ((2*nivel*critico)/5 + 2) * 40 * att do usuario/def do adversario -> novo
+                  //critico - > 6,25% de chance de ser 2, senao, 1
 
         if (maisRapido == 1) {
-            dano = (2 * p1.get_nvl() * p1.get_Att())/p2.get_Def() + aleatorio();
+            dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2;
             cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
             hpP2 -= dano;
+            if(hpP2<0) hpP2 = 0;
 
             cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
             cout << "|";
@@ -234,17 +237,18 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
             cout << "|" << endl;
 
             cout << ".";
-            Sleep(1000);
+            //Sleep(1000);
             cout << ".";
-            Sleep(1000);
+            //Sleep(1000);
             cout << ".";
-            Sleep(1000);
+            //Sleep(1000);
             cout << endl;
 
             if(hpP2 > 0) {
-                dano = (2 * p2.get_nvl() * p2.get_Att())/p1.get_Def() + aleatorio();
+                dano = (((((2 * p2.get_nvl() * 1)/5) +2) * 40 * (p2.get_Att()/p1.get_Def()))/50) + 2;
                 cout << endl << p2.get_nome() << " atacou com " << dano << " de dano!" << endl;
                 hpP1 -= dano;
+                if(hpP1<0) hpP1 = 0;
                 cout << ".";
 
                 cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
@@ -260,19 +264,20 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
                 cout << "|" << endl;
                 
                 cout << ".";
-                Sleep(1000);
+                //Sleep(1000);
                 cout << ".";
-                Sleep(1000);
+                //Sleep(1000);
                 cout << ".";
-                Sleep(1000);
+                //Sleep(1000);
                 cout << endl;
             }
         } 
         
         else {
-            dano = (2 * p2.get_nvl() * p2.get_Att())/p1.get_Def() + aleatorio();
+            dano = (((((2 * p2.get_nvl() * 1)/5) +2) * 40 * (p2.get_Att()/p1.get_Def()))/50) + 2;
             cout << endl << p2.get_nome() << " atacou com " << dano << " de dano!" << endl;
             hpP1 -= dano;
+            if(hpP1<0) hpP1 = 0;
 
             cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
             cout << "|";
@@ -287,17 +292,18 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
             cout << "|" << endl;
 
             cout << ".";
-            Sleep(1000);
+            //Sleep(1000);
             cout << ".";
-            Sleep(1000);
+            //Sleep(1000);
             cout << ".";
-            Sleep(1000);
+            //Sleep(1000);
             cout << endl;
 
             if(hpP1 > 0) {
-                dano = (2 * p1.get_nvl() * p1.get_Att())/p1.get_Def() + aleatorio();
+                dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2;
                 cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
-                hpP1 -= dano;
+                hpP2 -= dano;
+                if(hpP2<0) hpP2 = 0;
                 cout << ".";
 
                 cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
@@ -313,11 +319,11 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
                 cout << "|" << endl;
                 
                 cout << ".";
-                Sleep(1000);
+                //Sleep(1000);
                 cout << ".";
-                Sleep(1000);
+                //Sleep(1000);
                 cout << ".";
-                Sleep(1000);
+                //Sleep(1000);
                 cout << endl;
             }
         }
@@ -338,11 +344,11 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
 
         cout << "Reiniciando o desafio";
         cout << ".";
-        Sleep(2000);
+        //Sleep(2000);
         cout << ".";
-        Sleep(2000);
+        //Sleep(2000);
         cout << ".";
-        Sleep(2000);
+        //Sleep(2000);
         
         return false;
     }
@@ -362,11 +368,11 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
         cout << "Iniciando proxima batalha";
 
         cout << ".";
-        Sleep(2000);
+        //Sleep(2000);
         cout << ".";
-        Sleep(2000);
+        //Sleep(2000);
         cout << ".";
-        Sleep(2000);
+        //Sleep(2000);
 
         return true;
     }
@@ -424,7 +430,7 @@ void pokemon::ganhaXP(int vXP) {
         nvl++;
         XP_res -= proxNVL;
         proxNVL = pow(nvl, 2) + 5;
-        cout << nome << "subiu para o nivel " << nvl << '!' << endl;
+        cout << nome << " subiu para o nivel " << nvl << '!' << endl;
     }
 
     XP = XP_res;
@@ -449,7 +455,7 @@ class Pilha{
             topo = -1;
             empilha(mewtwo);
             
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(moltres);
                 break;
@@ -463,7 +469,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(arcanine);
                 break;
@@ -477,7 +483,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(snorlax);
                 break;
@@ -491,7 +497,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(nidoking);
                 break;
@@ -505,7 +511,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(primeape);
                 break;
@@ -519,7 +525,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(onix);
                 break;
@@ -533,7 +539,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(haunter);
                 break;
@@ -547,7 +553,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(geodude);
                 break;
@@ -561,7 +567,7 @@ class Pilha{
                 break;
             }
 
-            r = aleatorio();
+            r = aleatorio(1,5);
             switch(r){
                 case 1: empilha(caterpie);
                 break;
@@ -620,11 +626,11 @@ class Pilha{
 
 };
 
-int aleatorio(){
+int aleatorio(int x, int y){
     std::srand(static_cast<unsigned int>(std::time(0)));
 
-    // Gera um número aleatório entre 1 e 5
-    int numeroAleatorio = std::rand() % 5 + 1;
+    // Gera um número aleatório entre x e y
+    int numeroAleatorio = std::rand() % y + x;
 
     return numeroAleatorio;
 }
@@ -643,21 +649,20 @@ int main() {
     cout << "Toda vez que seu pokemon for derrotado a torre sera resetada para voce tentar novamente" << endl;    
     cout << "Boa sorte!" << endl;
     
-    
-    Pilha PilhaDeBatalha(1);
+    Pilha *PilhaDeBatalha = new Pilha(1);
     Pilha PilhaDeDerrotas(0);
  
     while(i){
-        while(!PilhaDeBatalha.vazia()){
-            if(realizarBatalha(jogador, PilhaDeBatalha.Poketopo())){
+        while(!PilhaDeBatalha->vazia()){
+            if(realizarBatalha(jogador, PilhaDeBatalha->Poketopo())){
                 pokemon derrotado;
-                PilhaDeBatalha.desempilha(derrotado);
+                PilhaDeBatalha->desempilha(derrotado);
                 PilhaDeDerrotas.empilha(derrotado);
             }else
                 break;
         }
 
-        if(PilhaDeBatalha.vazia()){
+        if(PilhaDeBatalha->vazia()){
             cout << "Parabens. Voce ganhou o jogo!!" << endl;
             i = false;
         }else{
@@ -665,7 +670,9 @@ int main() {
             while(!PilhaDeDerrotas.vazia()){
                 pokemon x;
                 PilhaDeDerrotas.desempilha(x);
-                PilhaDeBatalha.empilha(x);
+                PilhaDeBatalha->empilha(x);
+                delete PilhaDeBatalha;
+                Pilha *PilhaDeBatalha = new Pilha(1);
             }
             
         }
