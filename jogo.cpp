@@ -63,10 +63,9 @@ public:
     int get_speed() const;
 
     //Outros Métodos
-    int realizarBatalha(pokemon &p1, pokemon &p2);
-    pokemon escolhaUsuario();
     void imprime() const;
     void ganhaXP(int vXP);
+    void incrementaNvl();
 };
 
 int pokemon::proxID = 1;
@@ -126,7 +125,7 @@ pokemon rattata("Rattata", 30, 56, 35, 3, 72);
 pokemon pidgey("Pidgey", 40, 45, 40, 2, 56);
 pokemon weedle("Weedle", 40, 35, 30, 1, 50);
 
-pokemon charmander("Charmander", 39, 52, 43, 1, 65);
+pokemon charmander("Charmander", 100, 200, 10000, 1, 65);
 pokemon squirtle("Squirtle", 44, 48, 65, 1, 43);
 pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1, 45);
 
@@ -204,6 +203,9 @@ void pokemon::set_Def(int vDef) {
 
 void pokemon::set_speed(int vSpeed) {
         speed = vSpeed;
+}
+void pokemon::incrementaNvl(){
+    nvl++;
 }
 
 bool realizarBatalha(pokemon p1, pokemon p2) {
@@ -422,6 +424,24 @@ pokemon escolhaUsuario() {
     }while(escolha !=1 && escolha !=2 && escolha !=3);
 }
 
+/*void pokemon::ganhaXP(int vXP) {
+    int anterior;
+    int proxNVL = pow(get_nvl(), 2) + 5;   //XP necessario para o proximo nivel
+    int XP_res = vXP + get_XP();           //XP da batalha + XP de antes
+
+    while (XP_res>=proxNVL) {
+        anterior = nvl;
+        incrementaNvl();
+        XP_res -= proxNVL;
+        proxNVL = pow(get_nvl(), 2) + 5;
+        cout << nome << " subiu para o nivel " << get_nvl() << '!' << endl;
+    }
+
+    set_XP(XP_res);
+    cout << "XP atual: " << get_XP() << "/" << proxNVL << endl;
+    
+}*/
+
 void pokemon::ganhaXP(int vXP) {
     int proxNVL = pow(nvl, 2) + 5;   //XP necessario para o proximo nivel
     int XP_res = vXP + XP;           //XP da batalha + XP de antes
@@ -430,12 +450,12 @@ void pokemon::ganhaXP(int vXP) {
         nvl++;
         XP_res -= proxNVL;
         proxNVL = pow(nvl, 2) + 5;
-        cout << nome << " subiu para o nivel " << nvl << '!' << endl;
     }
 
     XP = XP_res;
     cout << "XP atual: " << XP << "/" << proxNVL << endl;
-    
+    cout << "Nivel atual: " << nvl << endl;
+
 }
 
 class Pilha{
@@ -672,7 +692,7 @@ int main() {
                 PilhaDeDerrotas.desempilha(x);
                 PilhaDeBatalha->empilha(x);
                 delete PilhaDeBatalha;
-                Pilha *PilhaDeBatalha = new Pilha(1);
+                PilhaDeBatalha = new Pilha(1);
             }
             
         }
