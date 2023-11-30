@@ -443,6 +443,7 @@ pokemon escolhaUsuario() {
 }*/
 
 void pokemon::ganhaXP(int vXP) {
+    int nivelAnterior = nvl;
     int proxNVL = pow(nvl, 2) + 5;   //XP necessario para o proximo nivel
     int XP_res = vXP + XP;           //XP da batalha + XP de antes
 
@@ -451,11 +452,19 @@ void pokemon::ganhaXP(int vXP) {
         XP_res -= proxNVL;
         proxNVL = pow(nvl, 2) + 5;
     }
-
     XP = XP_res;
+    
+    int nivelAtual = nvl;
+
     cout << "XP atual: " << XP << "/" << proxNVL << endl;
     cout << "Nivel atual: " << nvl << endl;
 
+    if(nivelAnterior!=nivelAtual)
+        for(int i = nivelAnterior; i < nivelAtual; i++) {
+            HP += 3;
+            Att += 3;
+            Def += 3;
+        }
 }
 
 class Pilha{
