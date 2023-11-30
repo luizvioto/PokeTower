@@ -22,7 +22,6 @@
 #include <cmath>
 
 using namespace std;
-int xxxxx;
 
 int aleatorio(int x, int y);
 
