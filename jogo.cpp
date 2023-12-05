@@ -16,7 +16,7 @@
 
 
 #include <iostream>
-#include <windows.h>
+
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
@@ -125,7 +125,16 @@ pokemon rattata("Rattata", 30, 56, 35, 3, 72);
 pokemon pidgey("Pidgey", 40, 45, 40, 2, 56);
 pokemon weedle("Weedle", 40, 35, 30, 1, 50);
 
-pokemon charmander("Charmander", 100, 200, 10000, 1, 65);
+
+pokemon charizard("Charizard", 100, 200, 10000, 32, 65);
+pokemon blastoise("Blastoise", 79, 83, 100, 32, 78);
+pokemon venusaur("Venusaur", 80, 82, 83, 32, 80);
+
+pokemon charmeleon("Charmeleon", 100, 200, 10000, 15, 65);
+pokemon wartortle("Wartortle", 59, 63, 80, 15, 58);
+pokemon ivysaur("Ivysaur", 60, 62, 63, 15, 60);
+
+pokemon charmander("Charmander", 100, 200, 10000, 14, 65);
 pokemon squirtle("Squirtle", 44, 48, 65, 1, 43);
 pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1, 45);
 
@@ -208,7 +217,7 @@ void pokemon::incrementaNvl(){
     nvl++;
 }
 
-bool realizarBatalha(pokemon p1, pokemon p2) {
+bool realizarBatalha(pokemon &p1, pokemon p2) {
     int hpP1 = p1.get_HP();
     int hpP2 = p2.get_HP();
 
@@ -360,6 +369,96 @@ bool realizarBatalha(pokemon p1, pokemon p2) {
 
         int XPganho = (p2.get_Att() + p2.get_Def())/20 + p2.get_nvl();
         p1.ganhaXP(XPganho);
+        
+        if(p1.get_nvl()==15){
+            if(p1.get_nome() == "Charmander"){
+                //Sleep(1000);
+                cout << "Seu pokemon esta evoluindo!!" << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << p1.get_nome() << " evoluiu para";
+                p1 = charmeleon;
+                cout << " " << p1.get_nome() << "!!\n";
+            }
+            if(p1.get_nome() == "Bulbasaur"){
+                //Sleep(1000);
+                cout << "Seu pokemon esta evoluindo!!" << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << p1.get_nome() << " evoluiu para";
+                p1 = ivysaur;
+                cout << " " << p1.get_nome() << "!!\n";
+            }
+            if(p1.get_nome() == "Squirtle"){
+                //Sleep(1000);
+                cout << "Seu pokemon esta evoluindo!!" << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << p1.get_nome() << " evoluiu para";
+                p1 = wartortle;
+                cout << " " << p1.get_nome() << "!!\n";
+            }
+        }
+
+        if(p1.get_nvl()==32){
+            if(p1.get_nome() == "Charmeleon"){
+                //Sleep(1000);
+                cout << "Seu pokemon esta evoluindo!!" << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << p1.get_nome() << " evoluiu para";
+                p1 = charizard;
+                cout << " " << p1.get_nome() << "!!\n";
+            }
+            if(p1.get_nome() == "Ivysaur"){
+                //Sleep(1000);
+                cout << "Seu pokemon esta evoluindo!!" << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << p1.get_nome() << " evoluiu para";
+                p1 = venusaur;
+                cout << " " << p1.get_nome() << "!!\n";
+            }
+            if(p1.get_nome() == "Wartortle"){
+                //Sleep(1000);
+                cout << "Seu pokemon esta evoluindo!!" << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << "." << endl;
+                //Sleep(1000);
+                cout << p1.get_nome() << " evoluiu para";
+                p1 = blastoise;
+                cout << " " << p1.get_nome() << "!!\n";
+            }
+        }
 
         int proximaBatalha;
         do {
@@ -422,25 +521,10 @@ pokemon escolhaUsuario() {
             cout << "escolha invalida. Tente novamente" << endl;
         }
     }while(escolha !=1 && escolha !=2 && escolha !=3);
+
+    return charmander;
 }
 
-/*void pokemon::ganhaXP(int vXP) {
-    int anterior;
-    int proxNVL = pow(get_nvl(), 2) + 5;   //XP necessario para o proximo nivel
-    int XP_res = vXP + get_XP();           //XP da batalha + XP de antes
-
-    while (XP_res>=proxNVL) {
-        anterior = nvl;
-        incrementaNvl();
-        XP_res -= proxNVL;
-        proxNVL = pow(get_nvl(), 2) + 5;
-        cout << nome << " subiu para o nivel " << get_nvl() << '!' << endl;
-    }
-
-    set_XP(XP_res);
-    cout << "XP atual: " << get_XP() << "/" << proxNVL << endl;
-    
-}*/
 
 void pokemon::ganhaXP(int vXP) {
     int nivelAnterior = nvl;
