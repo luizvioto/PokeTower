@@ -24,6 +24,13 @@ using namespace std;
 
 int aleatorio(int x, int y);
 
+class ataque{
+private:
+    string nome;
+    int poder;
+};
+
+
 class pokemon {
 
 private:
@@ -36,11 +43,11 @@ private:
     static int proxID;
     int XP;
     int speed;
-    string tipo; //fogo, agua, planta, eletric, pedra, fantasma, dragao, gelo, lutador,
+    string tipo; //fogo, agua, planta, eletrico, pedra, fantasma, dragao, gelo, lutador, normal, grama, inseto, voador, venenoso, terrestre, sombrio, metal, psiquico
 
 public:
     pokemon();
-    pokemon(string vnome, int vHP, int vAtt, int vDef, int vNvl, int vSpeed); // Construtor Detalhado
+    pokemon(string vnome, int vHP, int vAtt, int vDef, int vNvl, int vSpeed, string vTipo); // Construtor Detalhado
     // Destrutor
 
     // Métodos Set
@@ -51,6 +58,7 @@ public:
     void set_XP(int vXP);
     void set_Def(int vDef);
     void set_speed(int vSpeed);
+    void set_tipo(string vTipo);
 
     // Métodos Get
     int get_HP() const;
@@ -61,6 +69,7 @@ public:
     int get_XP() const;
     int get_Def() const;
     int get_speed() const;
+    string get_tipo() const;
 
     //Outros Métodos
     void imprime() const;
@@ -70,79 +79,82 @@ public:
 
 int pokemon::proxID = 1;
 
-pokemon mewtwo("Mewtwo", 106, 110, 90, 50, 130);
-pokemon moltres("Moltres", 90, 100, 90, 45, 90);
-pokemon zapdos("Zapdos", 90, 90, 85, 44, 100);
-pokemon articuno("Articuno", 90, 85, 100, 43, 85);
-pokemon dragonite("Dragonite", 91, 100, 95, 42, 80);
-pokemon mew("Mew", 100, 100, 100, 41, 100);
+  
+    pokemon mewtwo("Mewtwo", 106, 110, 90, 50, 130, "Psiquico");
+    pokemon moltres("Moltres", 90, 100, 90, 45, 90,"Fogo");
+    pokemon zapdos("Zapdos", 90, 90, 85, 44, 100,"Eletrico");
+    pokemon articuno("Articuno", 90, 85, 100, 43, 85,"Gelo");
+    pokemon dragonite("Dragonite", 91, 100, 95, 42, 80,"Dragao");
+    pokemon mew("Mew", 100, 100, 100, 41, 100,"Psiquico");
 
-pokemon arcanine("Arcanine", 90, 110, 80, 40, 95);
-pokemon gengar("Gengar", 60, 110, 60, 39, 110);
-pokemon gyarados("Gyarados", 95, 125, 79, 38, 81);
-pokemon exegguttor("Exegguttor", 95, 95, 85, 37, 55);
-pokemon alakazam("Alakazam", 70, 130, 50, 36, 120);
+    pokemon arcanine("Arcanine", 90, 110, 80, 40, 95,"Fogo");
+    pokemon gengar("Gengar", 60, 110, 60, 39, 110,"Fantasma");
+    pokemon gyarados("Gyarados", 95, 125, 79, 38, 81,"Agua");
+    pokemon exegguttor("Exegguttor", 95, 95, 85, 37, 55,"Grama");
+    pokemon alakazam("Alakazam", 70, 130, 50, 36, 120,"Psiquico");
 
-pokemon snorlax("Snorlax", 160, 100, 65, 35, 30);
-pokemon lapras("Lapras", 130, 95, 80, 34, 60);
-pokemon jolteon("Jolteon", 70, 100, 60, 33, 130);
-pokemon flareon("Flareon", 70, 100, 60, 32, 65);
-pokemon vaporeon("Vaporeon", 70, 100, 60, 31, 65);
+    pokemon snorlax("Snorlax", 160, 100, 65, 35, 30,"Normal");
+    pokemon lapras("Lapras", 130, 95, 80, 34, 60,"Agua");
+    pokemon jolteon("Jolteon", 70, 100, 60, 33, 130,"Eletrico");
+    pokemon flareon("Flareon", 70, 100, 60, 32, 65,"Fogo");
+    pokemon vaporeon("Vaporeon", 70, 100, 60, 31, 65,"Agua");
 
-pokemon nidoking("Nidoking", 81, 98, 77, 30, 85);
-pokemon pidgeot("Pidgeot", 83, 92, 75, 29, 101);
-pokemon machamp("Machamp", 90, 94, 80, 28, 55);
-pokemon rhydon("Rhydon", 105, 90, 120, 27, 40);
-pokemon raichu("Raichu", 60, 88, 55, 26, 110);
+    pokemon nidoking("Nidoking", 81, 98, 77, 30, 85,"Venenoso");
+    pokemon pidgeot("Pidgeot", 83, 92, 75, 29, 101,"Voador");
+    pokemon machamp("Machamp", 90, 94, 80, 28, 55,"Lutador");
+    pokemon rhydon("Rhydon", 105, 90, 120, 27, 40,"Terrestre");
+    pokemon raichu("Raichu", 60, 88, 55, 26, 110,"Eletrico");
 
-pokemon primeape("Primeape", 65, 89, 60, 25, 95);
-pokemon dragonair("Dragonair", 61, 84, 65, 24, 70);
-pokemon rapidash("Rapidash", 65, 87, 70, 23, 105);
-pokemon victreebel("Victreebel", 80, 87, 65, 22, 70);
-pokemon muk("Muk", 105, 80, 75, 21, 50);
+    pokemon primeape("Primeape", 65, 89, 60, 25, 95,"Lutador");
+    pokemon dragonair("Dragonair", 61, 84, 65, 24, 70,"Dragao");
+    pokemon rapidash("Rapidash", 65, 87, 70, 23, 105,"Fogo");
+    pokemon victreebel("Victreebel", 80, 87, 65, 22, 70,"Grama");
+    pokemon muk("Muk", 105, 80, 75, 21, 50,"Venenoso");
 
-pokemon onix("Onix", 35, 70, 160, 20, 70);
-pokemon hitmonchan("Hitmochan", 50, 100, 53, 19, 76);
-pokemon hitmonlee("Hitmonlee", 50, 100, 79, 18, 87);
-pokemon machoke("Machoke", 80, 98, 70, 17, 45);
-pokemon golduck("Golduck", 80, 82, 78, 16, 85);
+    pokemon onix("Onix", 35, 70, 160, 20, 70,"Pedra");
+    pokemon hitmonchan("Hitmochan", 50, 100, 53, 19, 76,"Lutador");
+    pokemon hitmonlee("Hitmonlee", 50, 100, 79, 18, 87,"Lutador");
+    pokemon machoke("Machoke", 80, 98, 70, 17, 45,"Lutador");
+    pokemon golduck("Golduck", 80, 82, 78, 16, 85, "Agua");
 
-pokemon haunter("Haunter", 45, 50, 45, 15, 95);
-pokemon pidgeotto("Pidgeotto", 63, 60, 55, 14, 71);
-pokemon rhyhorn("Rhyhorn", 80, 85, 95, 13, 25);
-pokemon arbok("Arbok", 60, 85, 69, 12, 80);
-pokemon sandslash("Sandslash", 75, 70, 90, 11, 65);
+    pokemon haunter("Haunter", 45, 50, 45, 15, 95,"Fantasma");
+    pokemon pidgeotto("Pidgeotto", 63, 60, 55, 14, 71,"Voador");
+    pokemon rhyhorn("Rhyhorn", 80, 85, 95, 13, 25,"Terrestre");
+    pokemon arbok("Arbok", 60, 85, 69, 12, 80,"Venenoso");
+    pokemon sandslash("Sandslash", 75, 70, 90, 11, 65,"Terrestre");
 
-pokemon geodude("Geodude", 40, 60, 100, 10, 20);
-pokemon nidoran("Nidoran", 46, 57, 40, 9, 40);
-pokemon ekans("Ekans", 35, 60, 44, 8, 55);
-pokemon pikachu("Pikachu", 35, 60, 44, 7, 90);
-pokemon mankey("Mankey", 40, 80, 35, 6, 70);
+    pokemon geodude("Geodude", 40, 60, 100, 10, 20,"Pedra");
+    pokemon nidoran("Nidoran", 46, 57, 40, 9, 40,"Venenoso");
+    pokemon ekans("Ekans", 35, 60, 44, 8, 55,"Venenoso");
+    pokemon pikachu("Pikachu", 35, 60, 44, 7, 90,"Eletrico");
+    pokemon mankey("Mankey", 40, 80, 35, 6, 70,"Lutador");
 
-pokemon caterpie("Caterpie", 45, 30, 35, 5, 42);
-pokemon zubat("Zubat", 40, 45, 35, 4, 55);
-pokemon rattata("Rattata", 30, 56, 35, 3, 72);
-pokemon pidgey("Pidgey", 40, 45, 40, 2, 56);
-pokemon weedle("Weedle", 40, 35, 30, 1, 50);
+    pokemon caterpie("Caterpie", 45, 30, 35, 5, 42,"Inseto");
+    pokemon zubat("Zubat", 40, 45, 35, 4, 55, "Venenoso");
+    pokemon rattata("Rattata", 30, 56, 35, 3, 72,"Normal");
+    pokemon pidgey("Pidgey", 40, 45, 40, 2, 56, "Voador");
+    pokemon weedle("Weedle", 40, 35, 30, 1, 50,"Inseto");
 
 
-pokemon charizard("Charizard", 100, 200, 10000, 32, 65);
-pokemon blastoise("Blastoise", 79, 83, 100, 32, 78);
-pokemon venusaur("Venusaur", 80, 82, 83, 32, 80);
+    pokemon charizard("Charizard", 100, 200, 10000, 32, 65,"Fogo");
+    pokemon blastoise("Blastoise", 79, 83, 100, 32, 78,"Agua");
+    pokemon venusaur("Venusaur", 80, 82, 83, 32, 80,"Grama");
 
-pokemon charmeleon("Charmeleon", 100, 200, 10000, 15, 65);
-pokemon wartortle("Wartortle", 59, 63, 80, 15, 58);
-pokemon ivysaur("Ivysaur", 60, 62, 63, 15, 60);
+    pokemon charmeleon("Charmeleon", 100, 200, 10000, 15, 65,"Fogo");
+    pokemon wartortle("Wartortle", 59, 63, 80, 15, 58,"Agua");
+    pokemon ivysaur("Ivysaur", 60, 62, 63, 15, 60,"Grama");
 
-pokemon charmander("Charmander", 100, 200, 10000, 14, 65);
-pokemon squirtle("Squirtle", 44, 48, 65, 1, 43);
-pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1, 45);
+    pokemon charmander("Charmander", 100, 200, 10000, 14, 65,"Fogo");
+    pokemon squirtle("Squirtle", 44, 48, 65, 1, 43,"Agua");
+    pokemon bulbasaur("Bulbasaur", 45, 49, 49, 1, 45,"Grama");
+
+
 
 pokemon::pokemon():ID(++proxID){
     nome = "Indefinido";
 }
 
-pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpeed){
+pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpeed, string vTipo){
     
     ID = proxID++;
     set_nome(vnome);
@@ -152,6 +164,8 @@ pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpee
     set_XP(0);
     set_Def(vDef);
     set_speed(vSpeed);
+    set_tipo(vTipo);
+
 }
 
 int pokemon::get_ID() const {
@@ -183,7 +197,11 @@ int pokemon::get_Def() const {
 }
 
 int pokemon::get_speed() const {
-        return speed;
+    return speed;
+}
+
+string pokemon::get_tipo() const{
+    return tipo;
 }
 
 void pokemon::set_HP(int vHP) {
@@ -212,6 +230,10 @@ void pokemon::set_Def(int vDef) {
 
 void pokemon::set_speed(int vSpeed) {
         speed = vSpeed;
+}
+
+void pokemon::set_tipo(string vTipo){
+    tipo = vTipo;
 }
 void pokemon::incrementaNvl(){
     nvl++;
