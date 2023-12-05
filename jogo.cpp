@@ -16,7 +16,6 @@
 
 
 #include <iostream>
-
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
@@ -37,6 +36,7 @@ private:
     static int proxID;
     int XP;
     int speed;
+    string tipo; //fogo, agua, planta, eletric, pedra, fantasma, dragao, gelo, lutador,
 
 public:
     pokemon();
@@ -461,19 +461,13 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
         }
 
         int proximaBatalha;
+        
         do {
-        cout << "Digite (1) para iniciar a proxima batalha!" << endl;
+        cout << "Digite (1) para continuar" << endl;
         cin >> proximaBatalha;
         } while(proximaBatalha != 1);
         
-        cout << "Iniciando proxima batalha";
 
-        cout << ".";
-        //Sleep(2000);
-        cout << ".";
-        //Sleep(2000);
-        cout << ".";
-        //Sleep(2000);
 
         return true;
     }
