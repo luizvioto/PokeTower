@@ -188,16 +188,7 @@ pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpee
     set_Def(vDef);
     set_speed(vSpeed);
     set_tipo(vTipo);
-
-    if (vnome == "Charmander") {
-        atk1 = "Ember";
-        poder_atk1 = 40;
-        tipo_atk1 = "Fogo";
-
-        atk2 = "Scratch";
-        poder_atk2 = 40;
-        tipo_atk2 = "Normal";
-    }
+    set_atk_1e2();
 }
 
 int pokemon::get_ID() const {
