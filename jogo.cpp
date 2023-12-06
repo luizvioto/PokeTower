@@ -24,11 +24,19 @@ using namespace std;
 
 int aleatorio(int x, int y);
 
-class ataque{
+/* class ataque {
 private:
     string nome;
     int poder;
-};
+    string tipo_ataque;
+
+public:
+    ataque (string vNome, int vPoder, string vTipo_ataque) {
+        nome = vNome;
+        poder = vPoder;
+        tipo_ataque = vTipo_ataque;
+    }
+}; */
 
 
 class pokemon {
@@ -44,6 +52,13 @@ private:
     int XP;
     int speed;
     string tipo; //fogo, agua, planta, eletrico, pedra, fantasma, dragao, gelo, lutador, normal, grama, inseto, voador, venenoso, terrestre, sombrio, metal, psiquico
+    
+    string atk1;
+    int poder_atk1;
+    string tipo_atk1;
+    string atk2;
+    int poder_atk2;
+    string tipo_atk2;
 
 public:
     pokemon();
@@ -59,6 +74,7 @@ public:
     void set_Def(int vDef);
     void set_speed(int vSpeed);
     void set_tipo(string vTipo);
+    void set_atk_1e2();
 
     // Métodos Get
     int get_HP() const;
@@ -70,6 +86,13 @@ public:
     int get_Def() const;
     int get_speed() const;
     string get_tipo() const;
+
+    string get_atk1() const;
+    int get_poder_atk1() const;
+    string get_tipo_atk1() const;
+    string get_atk2() const;
+    int get_poder_atk2() const;
+    string get_tipo_atk2() const;
 
     //Outros Métodos
     void imprime() const;
@@ -166,6 +189,15 @@ pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpee
     set_speed(vSpeed);
     set_tipo(vTipo);
 
+    if (vnome == "Charmander") {
+        atk1 = "Ember";
+        poder_atk1 = 40;
+        tipo_atk1 = "Fogo";
+
+        atk2 = "Scratch";
+        poder_atk2 = 40;
+        tipo_atk2 = "Normal";
+    }
 }
 
 int pokemon::get_ID() const {
@@ -200,8 +232,32 @@ int pokemon::get_speed() const {
     return speed;
 }
 
-string pokemon::get_tipo() const{
+string pokemon::get_tipo() const {
     return tipo;
+}
+
+string pokemon::get_atk1() const {
+    return atk1;
+}
+
+int pokemon::get_poder_atk1() const {
+    return poder_atk1;
+}
+
+string pokemon::get_tipo_atk1() const {
+    return tipo_atk1;
+}
+
+string pokemon::get_atk2() const {
+    return atk2;
+}
+
+int pokemon::get_poder_atk2() const {
+    return poder_atk2;
+}
+
+string pokemon::get_tipo_atk2() const {
+    return tipo_atk2;
 }
 
 void pokemon::set_HP(int vHP) {
@@ -232,9 +288,53 @@ void pokemon::set_speed(int vSpeed) {
         speed = vSpeed;
 }
 
-void pokemon::set_tipo(string vTipo){
+void pokemon::set_tipo(string vTipo) {
     tipo = vTipo;
 }
+
+void pokemon::set_atk_1e2() {
+
+    if (nome == "Charmander") {
+        atk1 = "Ember";
+        poder_atk1 = 40;
+        tipo_atk1 = "Fogo";
+
+        atk2 = "Scratch";
+        poder_atk2 = 40;
+        tipo_atk2 = "Normal";
+    }
+
+    else if (nome == "Squirtle") {
+        atk1 = "Water Gun";
+        poder_atk1 = 40;
+        tipo_atk1 = "Agua";
+
+        atk2 = "Tackle";
+        poder_atk2 = 40;
+        tipo_atk2 = "Normal";
+    }
+
+    else if (nome == "Bulbasaur") {
+        atk1 = "Vine Whip";
+        poder_atk1 = 45;
+        tipo_atk1 = "Grama";
+
+        atk2 = "Tackle";
+        poder_atk2 = 40;
+        tipo_atk2 = "Normal";
+    }
+
+    else {
+        atk1 = "Scratch";
+        poder_atk1 = 40;
+        tipo_atk1 = "Normal";
+
+        atk2 = "Scratch";
+        poder_atk2 = 40;
+        tipo_atk2 = "Normal";
+    }
+}
+
 void pokemon::incrementaNvl(){
     nvl++;
 }
@@ -252,7 +352,16 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
                   //critico - > 6,25% de chance de ser 2, senao, 1
 
         if (maisRapido == 1) {
-            dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2;
+            cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
+            cout << p1.get_atk1() << "(1)" << endl << p1.get_atk2() << "(2)" << endl;
+            int atk_escolhido, poder_atk;
+            cin >> atk_escolhido;
+            if(atk_escolhido == 1)
+                poder_atk = p1.get_poder_atk1();
+            else
+                poder_atk = p1.get_poder_atk2();
+
+            dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2 + poder_atk/10;
             cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
             hpP2 -= dano;
             if(hpP2<0) hpP2 = 0;
@@ -333,7 +442,16 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
             cout << endl;
 
             if(hpP1 > 0) {
-                dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2;
+                cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
+                cout << p1.get_atk1() << "(1)" << endl << p1.get_atk2() << "(2)" << endl;
+                int atk_escolhido, poder_atk;
+                cin >> atk_escolhido;
+                if(atk_escolhido == 1)
+                    poder_atk = p1.get_poder_atk1();
+                else
+                    poder_atk = p1.get_poder_atk2();
+                
+                dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2 + poder_atk/10;
                 cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
                 hpP2 -= dano;
                 if(hpP2<0) hpP2 = 0;
