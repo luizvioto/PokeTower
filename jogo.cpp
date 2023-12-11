@@ -1,72 +1,54 @@
-// 10   nlv 50          mewtwo
-// 9  - nvl 41-45 	    moltres, zapdos, articuno, dragonite, mew
-// 8  - nvl 36-40 	    arcanine, gengar, gyarados, exeggutor, alakazam
-// 7  - nvl 31-35	    snorlax, lapras, jolteon, flareon , vaporeon
-// 6  - nvl 26-30       nidoking, pidgeot, machamp, rhydon, raichu
-// 5  - nvl 21-25	    primeape, dragonair, rapidash, victreebel, muk
-// 4  - nvl 16-20 	    onix, hitmonchan, hitmonlee, machoke, golduck
-// 3  - nvl 11-15 		haunter, pidgeotto, rhyhorn, arbok, sandslash
-// 2  - nvl 6-10 		geodude, nidoran, ekans, pikachu, mankey
-// 1  - nvl 1-5 		caterpie, zubat, rattata, pidgey, weedle
-
-//Ainda falta implementar: tipo dos pokemon, sistema de nivel, sistema de evolucao
-//Corrigir: 1- ao reiniciar a torre, os pokemons sao os mesmos
-//          2- pokemon nao esta reiniciando a vida para a proxima batalha
-//          3- ganho de XP nao esta funcionando corretamente
-
-/*void pokemon::set_atk_1e2() {
-
-    if (nome == "Charmander") {
-        atk1 = "Ember";
-        poder_atk1 = 40;
-        tipo_atk1 = "Fogo";
-
-        atk2 = "Scratch";
-        poder_atk2 = 40;
-        tipo_atk2 = "Normal";
-    }
-
-    else if (nome == "Squirtle") {
-        atk1 = "Water Gun";
-        poder_atk1 = 40;
-        tipo_atk1 = "Agua";
-
-        atk2 = "Tackle";
-        poder_atk2 = 40;
-        tipo_atk2 = "Normal";
-    }
-
-    else if (nome == "Bulbasaur") {
-        atk1 = "Vine Whip";
-        poder_atk1 = 45;
-        tipo_atk1 = "Grama";
-
-        atk2 = "Tackle";
-        poder_atk2 = 40;
-        tipo_atk2 = "Normal";
-    }
-
-    else {
-        atk1 = "Scratch";
-        poder_atk1 = 40;
-        tipo_atk1 = "Normal";
-
-        atk2 = "Scratch";
-        poder_atk2 = 40;
-        tipo_atk2 = "Normal";
-    }
-}*/
-
-
-
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <random>
 
 using namespace std;
 
 int aleatorio(int x, int y);
+int critico() {
+    // Configurar o gerador de números aleatórios
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+
+    // Gerar um número aleatório entre 0 e 1
+    double randomValue = dis(gen);
+
+    // Determinar o valor com base na probabilidade desejada
+    if (randomValue < 0.0625) {
+        return 2; // 6,25% de chance
+    } else {
+        return 1; // 93,75% de chance
+    }
+}
+int efetivo(ataque a, pokemon p){
+    int i, j;
+    string tipo_ataque, tipo_poke;
+    tipo_ataque = a.get_nome();
+    float tabela[17][17] = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5},
+        {1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2},
+        {1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1},
+        {1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1},
+        {1, 0.5, 2, 1, 0.5, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5},
+        {1, 0.5, 0.5, 1, 2, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5},
+        {2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2},
+        {1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0},
+        {1, 2, 1, 2, 0.5, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2},
+        {1, 1, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 0.5},
+        {1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5},
+        {1, 0.5, 1, 1, 2, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5},
+        {1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5},
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5},
+        {1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5},
+        {1, 0.5, 0.5, 0.5, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5},
+    };
+
+}
+
 
 class ataque {
 private:
@@ -157,7 +139,6 @@ ataque irontail("Iron Tail", 40, "Metal");
 ataque bugbite("Bug Bite", 40, "Inseto");
 ataque poisonsting("Poison Sting", 40, "Venenoso");
 ataque wingattack("Wing Attack", 40, "Voador");
-ataque tackle("Tackle", 40, "Normal");
 ataque scratch("Scratch", 40, "Normal");
 ataque razorleaf("Razor Leaf", 40, "Grama");
 ataque seedbomb("Seed Bomb", 40, "Grama");
@@ -407,10 +388,6 @@ void pokemon::set_a1(ataque va1){
 void pokemon::set_a2(ataque va2){
     a2 = va2;
 }
-
-
-
-
 
 void pokemon::incrementaNvl(){
     nvl++;
