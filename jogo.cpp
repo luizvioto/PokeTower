@@ -27,6 +27,47 @@ int efetivo(ataque a, pokemon p){
     int i, j;
     string tipo_ataque, tipo_poke;
     tipo_ataque = a.get_nome();
+    tipo_poke = p.get_nome();
+    
+    if(tipo_ataque == "Normal") i = 0;
+    else if(tipo_ataque == "Fogo") i = 1;
+    else if(tipo_ataque == "Agua") i = 2;
+    else if(tipo_ataque == "Eletrico") i = 3;
+    else if(tipo_ataque == "Grama") i = 4;
+    else if(tipo_ataque == "Gelo") i = 5;
+    else if(tipo_ataque == "Lutador") i = 6;
+    else if(tipo_ataque == "Venenoso") i = 7;
+    else if(tipo_ataque == "Terrestre") i = 8;
+    else if(tipo_ataque == "Voador") i = 9;
+    else if(tipo_ataque == "Psiquico") i = 10;
+    else if(tipo_ataque == "Inseto") i = 11;
+    else if(tipo_ataque == "Pedra") i = 12;
+    else if(tipo_ataque == "Fantasma") i = 13;
+    else if(tipo_ataque == "Dragao") i = 14;
+    else if(tipo_ataque == "Sombrio") i = 15;
+    else if(tipo_ataque == "Metal") i = 16;
+
+    if(tipo_poke == "Normal") j = 0;
+    else if(tipo_poke == "Fogo") j = 1;
+    else if(tipo_poke == "Agua") j = 2;
+    else if(tipo_poke == "Eletrico") j = 3;
+    else if(tipo_poke == "Grama") j = 4;
+    else if(tipo_poke == "Gelo") j = 5;
+    else if(tipo_poke == "Lutador") j = 6;
+    else if(tipo_poke == "Venenoso") j = 7;
+    else if(tipo_poke == "Terrestre") j = 8;
+    else if(tipo_poke == "Voador") j = 9;
+    else if(tipo_poke == "Psiquico") j = 10;
+    else if(tipo_poke == "Inseto") j = 11;
+    else if(tipo_poke == "Pedra") j = 12;
+    else if(tipo_poke == "Fantasma") j = 13;
+    else if(tipo_poke == "Dragao") j = 14;
+    else if(tipo_poke == "Sombrio") j = 15;
+    else if(tipo_poke == "Metal") j = 16;
+    
+    
+    
+    
     float tabela[17][17] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5},
         {1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2},
@@ -46,6 +87,8 @@ int efetivo(ataque a, pokemon p){
         {1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5},
         {1, 0.5, 0.5, 0.5, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5},
     };
+
+    return tabela[i][j];
 
 }
 
