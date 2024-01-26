@@ -6,9 +6,9 @@
 
 int critico();
 
-int efetivo(ataque a, pokemon p);
+float efetivo(ataque a, pokemon p);
 
-bool realizarBatalha(pokemon &p1, pokemon p2);
+bool realizarBatalha(pokemon &p1, pokemon p2, int &cont, double &secAdd);
 
 pokemon escolhaUsuario();
 

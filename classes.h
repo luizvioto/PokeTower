@@ -39,6 +39,7 @@ private:
     static int proxID;
     int XP;
     int speed;
+    int jaEvoluiu[2];
     std::string tipo; //fogo, agua, planta, eletrico, pedra, fantasma, dragao, gelo, lutador, normal, grama, inseto, voador, venenoso, terrestre, sombrio, metal, psiquico
     ataque a1;
     ataque a2;
@@ -61,6 +62,7 @@ public:
     void set_a1(ataque va1);
     void set_a2(ataque va2);
     void set_BaseXP(int vBaseXP);
+    void set_jaEvoluiu(int x, int i);
 
     // Métodos Get
     int get_HP() const;
@@ -75,6 +77,7 @@ public:
     ataque get_a1() const;
     ataque get_a2() const;
     int get_baseXP() const;
+    int get_jaEvoluiu(int i) const;
 
 
     //Outros Métodos

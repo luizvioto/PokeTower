@@ -12,8 +12,12 @@ using namespace std;
 
 
 int main() {
-    
+    clock_t start, end;
+    start = clock();
+    int cont=0;
+    double secAdd=0;
     bool i = true;
+    int qtd_reinicios=0;
     
     cout << "Seja bem vindo a torre de batalha pokemon, comece escolhendo o pokemon que ira te acompanhar nas batalhas" << endl;
 
@@ -30,7 +34,7 @@ int main() {
  
     while(i){
         while(!PilhaDeBatalha->vazia()){
-            if(realizarBatalha(jogador, PilhaDeBatalha->Poketopo())){
+            if(realizarBatalha(jogador, PilhaDeBatalha->Poketopo(), cont,secAdd)){
                 pokemon derrotado;
                 PilhaDeBatalha->desempilha(derrotado);
                 PilhaDeDerrotas.empilha(derrotado);
@@ -43,6 +47,7 @@ int main() {
             i = false;
         }else{
             cout << "Resetando torre de batalha..." << endl;
+            qtd_reinicios++;
             while(!PilhaDeDerrotas.vazia()){
                 pokemon x;
                 PilhaDeDerrotas.desempilha(x);
@@ -54,6 +59,11 @@ int main() {
         }
     }   
     
-    
+    cout << "contador de movimentos realizados pelo usuario: " << cont << endl;
+    end = clock();
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    time_taken = time_taken + secAdd;
+    std::cout << "Time taken by program is : " << time_taken << " seconds" << std::endl;
+    cout << "Quantidade de reinicios: " << qtd_reinicios << endl;
     return 0;
 }

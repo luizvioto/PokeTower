@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cmath>
 #include <random>
+#include<windows.h>
 
 using namespace std;
 #include "classes.h"
@@ -26,7 +27,7 @@ int critico() {
     }
 }
 
-int efetivo(ataque a, pokemon p){
+float efetivo(ataque a, pokemon p){
     int i, j;
     string tipo_ataque, tipo_poke;
     tipo_ataque = a.get_tipo_ataque();
@@ -103,7 +104,7 @@ float STAB(pokemon p, ataque a){
     }
 }
 
-bool realizarBatalha(pokemon &p1, pokemon p2) {
+bool realizarBatalha(pokemon &p1, pokemon p2, int &cont, double &secAdd) {
     int rand;
     
     int hpP1 = p1.get_HP();
@@ -127,19 +128,22 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
             cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
             cout << p1.get_a1().get_nome() << "(1)" << endl << p1.get_a2().get_nome() << "(2)" << endl;
             cin >> atk_escolhido;
+            cont++;
             if(atk_escolhido == 1)
                 ataqueEscolhido = p1.get_a1();
             else
                 ataqueEscolhido = p1.get_a2();
 
-            dano = ((( ((((2*p1.get_nvl()*critico()) / 5)+2)*ataqueEscolhido.get_poder()*(p1.get_Att()/p2.get_Def()))/50)+2)*STAB(p1, ataqueEscolhido)*efetivo(ataqueEscolhido, p2))*2 ;
+            dano = (( ((((2*p1.get_nvl()*critico()) / 5)+2)*ataqueEscolhido.get_poder()*(p1.get_Att()/p2.get_Def()))/50)+2)*STAB(p1, ataqueEscolhido)*efetivo(ataqueEscolhido, p2) ;
             cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
             if(efetivo(ataqueEscolhido,p2) == 2)
                 cout << "foi super efetivo!!" << endl;
             else if(efetivo(ataqueEscolhido,p2) == 0.5)
                 cout << "nao e efetivo" << endl;
-            else if(efetivo(ataqueEscolhido,p2)==0)
+            else if(efetivo(ataqueEscolhido,p2)==0) {
                 cout << "nao fez efeito" << endl;
+                cout << efetivo(ataqueEscolhido, p2) << endl;
+            }
             hpP2 -= dano;
             if(hpP2<0) hpP2 = 0;
 
@@ -156,11 +160,11 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
             cout << "|" << endl;
 
             cout << ".";
-            //Sleep(1000);
+            secAdd += 0.1;
             cout << ".";
-            //Sleep(1000);
+            secAdd += 0.1;
             cout << ".";
-            //Sleep(1000);
+            secAdd += 0.1;
             cout << endl;
 
             if(hpP2 > 0) {
@@ -194,11 +198,11 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
                 cout << "|" << endl;
                 
                 cout << ".";
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << ".";
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << ".";
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << endl;
             }
         } 
@@ -235,32 +239,34 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
             cout << "|" << endl;
 
             cout << ".";
-            //Sleep(1000);
+            secAdd += 0.1;
             cout << ".";
-            //Sleep(1000);
+            secAdd += 0.1;
             cout << ".";
-            //Sleep(1000);
+            secAdd += 0.1;
             cout << endl;
 
             if(hpP1 > 0) {
                 cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
                 cout << p1.get_a1().get_nome() << "(1)" << endl << p1.get_a2().get_nome() << "(2)" << endl;
                 cin >> atk_escolhido;
+                cont++;
                 if(atk_escolhido == 1)
                     ataqueEscolhido = p1.get_a1();
                 else
                     ataqueEscolhido = p1.get_a2();
 
-                dano = ((( ((((2*p1.get_nvl()*critico()) / 5)+2)*ataqueEscolhido.get_poder()*(p1.get_Att()/p2.get_Def()))/50)+2)*STAB(p1, ataqueEscolhido)*efetivo(ataqueEscolhido, p2)  )*2;
+                dano = (( ((((2*p1.get_nvl()*critico()) / 5)+2)*ataqueEscolhido.get_poder()*(p1.get_Att()/p2.get_Def()))/50)+2)*STAB(p1, ataqueEscolhido)*efetivo(ataqueEscolhido, p2)  ;
                 cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
                 hpP2 -= dano;
                 if(efetivo(ataqueEscolhido,p2) == 2)
                     cout << "foi super efetivo!!" << endl;
                 else if(efetivo(ataqueEscolhido,p2) == 0.5)
                     cout << "nao e efetivo" << endl;
-                else if(efetivo(ataqueEscolhido,p2)==0)
+                else if(efetivo(ataqueEscolhido,p2)==0) {
                     cout << "nao fez efeito" << endl;
-
+                    cout << efetivo(ataqueEscolhido, p2) << endl;
+                }
                 if(hpP2<0) hpP2 = 0;
 
                 cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
@@ -276,11 +282,11 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
                 cout << "|" << endl;
                 
                 cout << ".";
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << ".";
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << ".";
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << endl;
             }
         }
@@ -296,16 +302,17 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
         int reiniciar;
         do {
         cout << "Digite (1) para reiniciar o desafio!" << endl;
+        secAdd += 1;
         cin >> reiniciar;
         } while(reiniciar != 1);
 
         cout << "Reiniciando o desafio";
         cout << ".";
-        //Sleep(2000);
+        secAdd += 0.1;(1000);
         cout << ".";
-        //Sleep(2000);
+        secAdd += 0.1;(1000);
         cout << ".";
-        //Sleep(2000);
+        secAdd += 0.1;(1000);
         
         return false;
     }
@@ -316,90 +323,92 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
         int XPganho = (p2.get_baseXP()*p2.get_nvl()) /7;
         p1.ganhaXP(XPganho);
         
-        if(p1.get_nvl()==15){
+        if(p1.get_nvl()>=15 && p1.get_nvl()<32 && p1.get_jaEvoluiu(0)==0){
+            p1.set_jaEvoluiu(1,0);
             if(p1.get_nome() == "Charmander"){
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "Seu pokemon esta evoluindo!!" << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << p1.get_nome() << " evoluiu para";
                 p1 = charmeleon;
                 cout << " " << p1.get_nome() << "!!\n";
             }
             if(p1.get_nome() == "Bulbasaur"){
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "Seu pokemon esta evoluindo!!" << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << p1.get_nome() << " evoluiu para";
                 p1 = ivysaur;
                 cout << " " << p1.get_nome() << "!!\n";
             }
             if(p1.get_nome() == "Squirtle"){
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "Seu pokemon esta evoluindo!!" << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << p1.get_nome() << " evoluiu para";
                 p1 = wartortle;
                 cout << " " << p1.get_nome() << "!!\n";
             }
         }
 
-        if(p1.get_nvl()==32){
+        if(p1.get_nvl()>=32 && p1.get_jaEvoluiu(1)==0){
+            p1.set_jaEvoluiu(1,1);
             if(p1.get_nome() == "Charmeleon"){
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "Seu pokemon esta evoluindo!!" << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << p1.get_nome() << " evoluiu para";
                 p1 = charizard;
                 cout << " " << p1.get_nome() << "!!\n";
             }
             if(p1.get_nome() == "Ivysaur"){
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "Seu pokemon esta evoluindo!!" << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << p1.get_nome() << " evoluiu para";
                 p1 = venusaur;
                 cout << " " << p1.get_nome() << "!!\n";
             }
             if(p1.get_nome() == "Wartortle"){
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "Seu pokemon esta evoluindo!!" << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << "." << endl;
-                //Sleep(1000);
+                secAdd += 0.1;
                 cout << p1.get_nome() << " evoluiu para";
                 p1 = blastoise;
                 cout << " " << p1.get_nome() << "!!\n";
@@ -410,6 +419,8 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
         
         do {
         cout << "Digite (1) para continuar" << endl;
+
+        secAdd += 2;
         cin >> proximaBatalha;
         } while(proximaBatalha != 1);
         

@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cmath>
 #include <random>
+#include<windows.h>
 
 using namespace std;
 #include "classes.h"
@@ -237,6 +238,8 @@ pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpee
     set_a1(va1);
     set_a2(va2);
     set_BaseXP(vBaseXP);
+    jaEvoluiu[0]=0;
+    jaEvoluiu[1]=0;
     
 }
 
@@ -288,6 +291,10 @@ ataque pokemon::get_a2() const{
     return a2;
 }
 
+int pokemon::get_jaEvoluiu(int i) const{
+    return jaEvoluiu[i];
+}
+
 void pokemon::set_HP(int vHP) {
     HP = (vHP >= 0) ? vHP : 0;
 }
@@ -332,9 +339,15 @@ void pokemon::set_BaseXP(int vBaseXP){
     baseXP = vBaseXP; 
 }
 
+void pokemon::set_jaEvoluiu(int x, int i){
+    jaEvoluiu[i] = x;
+}
+
 void pokemon::incrementaNvl(){
     nvl++;
 }
+
+
 
 void pokemon::imprime() const {
     cout << "ID: " << get_ID() << endl;
@@ -348,7 +361,7 @@ void pokemon::imprime() const {
 
 void pokemon::ganhaXP(int vXP) {
     int nivelAnterior = nvl;
-    int proxNVL = pow(nvl, 2) + 5;   //XP necessario para o proximo nivel
+    int proxNVL = pow(nvl, 2);   //XP necessario para o proximo nivel
     int XP_res = vXP + XP;           //XP da batalha + XP de antes
 
     while (XP_res>=proxNVL) {
