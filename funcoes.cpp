@@ -112,12 +112,16 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
     while ((hpP1 > 0) && (hpP2 > 0)) {
         int maisRapido;
         int atk_escolhido;
-        maisRapido = (p1.get_speed() >= p2.get_speed()) ? 1 : 2;
+        if(p1.get_speed() >= p2.get_speed())
+            maisRapido = 1;
+        else
+            maisRapido = 2;
+
 
         ataque ataqueEscolhido;
         ataque ataqueAdversario;
 
-        int dano; 
+        int dano;
 
         if (maisRapido == 1) {
             cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
@@ -309,7 +313,7 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
     else { //Vitoria do Usuario
         cout << p1.get_nome() << " venceu!" << endl;
 
-        int XPganho = (p2.get_Att() + p2.get_Def())/20 + p2.get_nvl();
+        int XPganho = (p2.get_baseXP()*p2.get_nvl()) /7;
         p1.ganhaXP(XPganho);
         
         if(p1.get_nvl()==15){

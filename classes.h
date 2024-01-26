@@ -34,6 +34,7 @@ private:
     int Att;    // Strenght Points
     int Def;
     int nvl;   // Nivel
+    int baseXP;
     std::string nome;
     static int proxID;
     int XP;
@@ -45,7 +46,7 @@ private:
 
 public:
     pokemon();
-    pokemon(std::string vnome, int vHP, int vAtt, int vDef, int vNvl, int vSpeed, std::string vTipo, ataque a1, ataque a2); // Construtor Detalhado
+    pokemon(std::string vnome, int vHP, int vAtt, int vDef, int vNvl, int vSpeed, std::string vTipo, ataque a1, ataque a2, int vBaseXP); // Construtor Detalhado
     // Destrutor
 
     // Métodos Set
@@ -59,6 +60,7 @@ public:
     void set_tipo(std::string vTipo);
     void set_a1(ataque va1);
     void set_a2(ataque va2);
+    void set_BaseXP(int vBaseXP);
 
     // Métodos Get
     int get_HP() const;
@@ -72,6 +74,7 @@ public:
     std::string get_tipo() const;
     ataque get_a1() const;
     ataque get_a2() const;
+    int get_baseXP() const;
 
 
     //Outros Métodos
@@ -89,9 +92,9 @@ public:
 
     Pilha(int x);
 
-    bool cheia();
+    bool cheia() const;
    
-    bool vazia();
+    bool vazia() const;
    
     bool empilha(pokemon X);
 

@@ -47,6 +47,8 @@ string ataque::get_tipo_ataque() const{
     return tipo_ataque;
 }
 
+
+
 Pilha::Pilha(int x){
     if(x==1){ //criar pilha de batalha, parametro = 1
         int r;
@@ -181,7 +183,7 @@ pokemon Pilha::Poketopo(){
     return adversario[topo];
 }
 
-bool Pilha::cheia(){
+bool Pilha::cheia() const{
     if(topo == 9){
         return true;
     }else{
@@ -189,7 +191,7 @@ bool Pilha::cheia(){
     }
 }
 
-bool Pilha::vazia(){
+bool Pilha::vazia() const{
     if(topo == -1){
         return true;
     }else{
@@ -198,7 +200,7 @@ bool Pilha::vazia(){
 }
 
 bool Pilha::empilha(pokemon X){
-    if(cheia()==true){
+    if(cheia()){
         return false;
     }else{
         topo++;
@@ -208,7 +210,7 @@ bool Pilha::empilha(pokemon X){
 }
 
 bool Pilha::desempilha(pokemon &X){
-    if(vazia()==true){
+    if(vazia()){
         return false;
     }else{
         X = adversario[topo];
@@ -221,7 +223,7 @@ pokemon::pokemon():ID(++proxID){
     nome = "Indefinido";
 }
 
-pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpeed, string vTipo, ataque va1, ataque va2){
+pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpeed, string vTipo, ataque va1, ataque va2, int vBaseXP){
     
     ID = proxID++;
     set_nome(vnome);
@@ -234,6 +236,7 @@ pokemon::pokemon(string vnome, int vHP, int vAtt, int vDef , int vNvl, int vSpee
     set_tipo(vTipo);
     set_a1(va1);
     set_a2(va2);
+    set_BaseXP(vBaseXP);
     
 }
 
@@ -275,6 +278,10 @@ string pokemon::get_tipo() const {
 
 ataque pokemon::get_a1() const{
     return a1;
+}
+
+int pokemon::get_baseXP() const{
+    return baseXP;
 }
 
 ataque pokemon::get_a2() const{
@@ -321,6 +328,10 @@ void pokemon::set_a2(ataque va2){
     a2 = va2;
 }
 
+void pokemon::set_BaseXP(int vBaseXP){
+    baseXP = vBaseXP; 
+}
+
 void pokemon::incrementaNvl(){
     nvl++;
 }
@@ -331,7 +342,8 @@ void pokemon::imprime() const {
     cout << "HP: " << get_HP() << endl;
     cout << "Att: " << get_Att() << endl;
     cout << "Nivel: " << get_nvl() << endl; 
-    cout << "Def: " << get_Def() << endl << endl;
+    cout << "Def: " << get_Def() << endl;
+    cout << "BaseXP: " << get_baseXP() << endl << endl;
 }
 
 void pokemon::ganhaXP(int vXP) {
