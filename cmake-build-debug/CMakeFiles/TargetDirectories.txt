@@ -1,0 +1,3 @@
+C:/Users/Luiz/Documents/GitHub/PokeTower/cmake-build-debug/CMakeFiles/PokeTower.dir
+C:/Users/Luiz/Documents/GitHub/PokeTower/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Luiz/Documents/GitHub/PokeTower/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -29,8 +29,8 @@ int critico() {
 int efetivo(ataque a, pokemon p){
     int i, j;
     string tipo_ataque, tipo_poke;
-    tipo_ataque = a.get_nome();
-    tipo_poke = p.get_nome();
+    tipo_ataque = a.get_tipo_ataque();
+    tipo_poke = p.get_tipo();
     
     if(tipo_ataque == "Normal") i = 0;
     else if(tipo_ataque == "Fogo") i = 1;
@@ -111,24 +111,31 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
 
     while ((hpP1 > 0) && (hpP2 > 0)) {
         int maisRapido;
-        int poder_atk_adv, poder_atk, atk_escolhido;
+        int atk_escolhido;
         maisRapido = (p1.get_speed() >= p2.get_speed()) ? 1 : 2;
 
-        int dano; // (((2*NVL*ATT)/DEF)/50 + 2) * multiplicador aleatorio(de 0.85 a 1.00) * multiplicador de tipo(0.5, 1.0 ou 2.0) -> antigo
-                  // ((2*nivel*critico)/5 + 2) * 40 * att do usuario/def do adversario -> novo
-                  //critico - > 6,25% de chance de ser 2, senao, 1
+        ataque ataqueEscolhido;
+        ataque ataqueAdversario;
+
+        int dano; 
 
         if (maisRapido == 1) {
             cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
             cout << p1.get_a1().get_nome() << "(1)" << endl << p1.get_a2().get_nome() << "(2)" << endl;
             cin >> atk_escolhido;
             if(atk_escolhido == 1)
-                poder_atk = p1.get_a1().get_poder();
+                ataqueEscolhido = p1.get_a1();
             else
-                poder_atk = p1.get_a2().get_poder();
+                ataqueEscolhido = p1.get_a2();
 
-            dano = (((((2*p1.get_nvl()*critico()) / 5)+2)*poder_atk*(p1.get_Att()/p2.get_Def())/50)+2)*STAB(p1, p1.get_a1());
+            dano = ((( ((((2*p1.get_nvl()*critico()) / 5)+2)*ataqueEscolhido.get_poder()*(p1.get_Att()/p2.get_Def()))/50)+2)*STAB(p1, ataqueEscolhido)*efetivo(ataqueEscolhido, p2))*2 ;
             cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
+            if(efetivo(ataqueEscolhido,p2) == 2)
+                cout << "foi super efetivo!!" << endl;
+            else if(efetivo(ataqueEscolhido,p2) == 0.5)
+                cout << "nao e efetivo" << endl;
+            else if(efetivo(ataqueEscolhido,p2)==0)
+                cout << "nao fez efeito" << endl;
             hpP2 -= dano;
             if(hpP2<0) hpP2 = 0;
 
@@ -155,16 +162,21 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
             if(hpP2 > 0) {
                 rand = aleatorio(1, 2);
                 if(rand==1){
-                    poder_atk_adv = p2.get_a1().get_poder();
+                    ataqueAdversario = p2.get_a1();
                 }else{
-                    poder_atk_adv = p2.get_a2().get_poder();
+                    ataqueAdversario = p2.get_a2();
                 }
-                dano = (((((2 * p2.get_nvl() * 1)/5) +2) * 40 * (p2.get_Att()/p1.get_Def()))/50) + 2 + poder_atk_adv/2;
+                dano = (( ((((2*p2.get_nvl()*critico()) / 5)+2) * ataqueAdversario.get_poder() * (p2.get_Att()/p1.get_Def()))/50)+2)*STAB(p2, ataqueAdversario)*efetivo(ataqueAdversario, p1);
                 cout << endl << p2.get_nome() << " atacou com " << dano << " de dano!" << endl;
+                if(efetivo(ataqueAdversario,p1) == 2)
+                    cout << "foi super efetivo!!" << endl;
+                else if(efetivo(ataqueAdversario,p1) == 0.5)
+                    cout << "nao e efetivo" << endl;
+                else if(efetivo(ataqueAdversario,p1)==0)
+                    cout << "nao fez efeito" << endl;
                 hpP1 -= dano;
                 if(hpP1<0) hpP1 = 0;
-                cout << ".";
-
+                
                 cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
                 cout << "|";
                 for(int i = 0; i<hpP1; i++) cout << "x";
@@ -190,13 +202,19 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
         else {
             rand = aleatorio(1, 2);
                 if(rand==1){
-                    poder_atk_adv = p2.get_a1().get_poder();
+                    ataqueAdversario = p2.get_a1();
                 }else{
-                    poder_atk_adv = p2.get_a2().get_poder();
+                    ataqueAdversario = p2.get_a2();
                 }
             
-            dano = (((((2 * p2.get_nvl() * 1)/5) +2) * 40 * (p2.get_Att()/p1.get_Def()))/50) + 2 + poder_atk_adv/2;
+            dano = (( ((((2*p2.get_nvl()*critico()) / 5)+2) * ataqueAdversario.get_poder() * (p2.get_Att()/p1.get_Def()))/50)+2)*STAB(p2, ataqueAdversario)*efetivo(ataqueAdversario, p1);
             cout << endl << p2.get_nome() << " atacou com " << dano << " de dano!" << endl;
+            if(efetivo(ataqueAdversario,p1) == 2)
+                cout << "foi super efetivo!!" << endl;
+            else if(efetivo(ataqueAdversario,p1) == 0.5)
+                cout << "nao e efetivo" << endl;
+            else if(efetivo(ataqueAdversario,p1)==0)
+                cout << "nao fez efeito" << endl;            
             hpP1 -= dano;
             if(hpP1<0) hpP1 = 0;
 
@@ -225,15 +243,21 @@ bool realizarBatalha(pokemon &p1, pokemon p2) {
                 cout << p1.get_a1().get_nome() << "(1)" << endl << p1.get_a2().get_nome() << "(2)" << endl;
                 cin >> atk_escolhido;
                 if(atk_escolhido == 1)
-                    poder_atk = p1.get_a1().get_poder();
+                    ataqueEscolhido = p1.get_a1();
                 else
-                    poder_atk = p1.get_a2().get_poder();
+                    ataqueEscolhido = p1.get_a2();
 
-                dano = (((((2 * p1.get_nvl() * 1)/5) +2) * 40 * (p1.get_Att()/p2.get_Def()))/50) + 2 + poder_atk/2;
+                dano = ((( ((((2*p1.get_nvl()*critico()) / 5)+2)*ataqueEscolhido.get_poder()*(p1.get_Att()/p2.get_Def()))/50)+2)*STAB(p1, ataqueEscolhido)*efetivo(ataqueEscolhido, p2)  )*2;
                 cout << endl << p1.get_nome() << " atacou com " << dano << " de dano!" << endl;
                 hpP2 -= dano;
+                if(efetivo(ataqueEscolhido,p2) == 2)
+                    cout << "foi super efetivo!!" << endl;
+                else if(efetivo(ataqueEscolhido,p2) == 0.5)
+                    cout << "nao e efetivo" << endl;
+                else if(efetivo(ataqueEscolhido,p2)==0)
+                    cout << "nao fez efeito" << endl;
+
                 if(hpP2<0) hpP2 = 0;
-                cout << ".";
 
                 cout << endl << "HP de " << p1.get_nome() << ": " << hpP1 << " / " << p1.get_HP() << endl;
                 cout << "|";

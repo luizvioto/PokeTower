@@ -1,0 +1,10 @@
+# ninja log v5
+13	2560	7279441564193335	CMakeFiles/PokeTower.dir/main.cpp.obj	5720c122a121d944
+23	2589	7279441564468241	CMakeFiles/PokeTower.dir/global_objects.cpp.obj	b8cbbc3ea637b91c
+8	2694	7279441565567787	CMakeFiles/PokeTower.dir/classes.cpp.obj	dbdf34d31853823a
+0	2894	7279441567511036	CMakeFiles/PokeTower.dir/funcoes.cpp.obj	37d02388d19724c7
+2894	3195	7279441570469351	PokeTower.exe	6319eb7fd07c334a
+7	3091	7279446134199815	CMakeFiles/PokeTower.dir/funcoes.cpp.obj	37d02388d19724c7
+3104	3650	7279446138807191	PokeTower.exe	6319eb7fd07c334a
+6	1462	7279920176870560	CMakeFiles/PokeTower.dir/funcoes.cpp.obj	37d02388d19724c7
+1463	2082	7279920183027038	PokeTower.exe	6319eb7fd07c334a
