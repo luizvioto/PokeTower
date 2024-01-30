@@ -128,6 +128,7 @@ bool realizarBatalha(pokemon &p1, pokemon p2, int &cont, double &secAdd) {
             cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
             cout << p1.get_a1().get_nome() << "(1)" << endl << p1.get_a2().get_nome() << "(2)" << endl;
             cin >> atk_escolhido;
+            //atk_escolhido=1;
             cont++;
             if(atk_escolhido == 1)
                 ataqueEscolhido = p1.get_a1();
@@ -249,7 +250,9 @@ bool realizarBatalha(pokemon &p1, pokemon p2, int &cont, double &secAdd) {
             if(hpP1 > 0) {
                 cout << "Selecione o ataque de " << p1.get_nome() << " :" << endl;
                 cout << p1.get_a1().get_nome() << "(1)" << endl << p1.get_a2().get_nome() << "(2)" << endl;
+
                 cin >> atk_escolhido;
+                //atk_escolhido=1;
                 cont++;
                 if(atk_escolhido == 1)
                     ataqueEscolhido = p1.get_a1();
@@ -304,6 +307,7 @@ bool realizarBatalha(pokemon &p1, pokemon p2, int &cont, double &secAdd) {
         cout << "Digite (1) para reiniciar o desafio!" << endl;
         secAdd += 1;
         cin >> reiniciar;
+        //reiniciar=1;
         } while(reiniciar != 1);
 
         cout << "Reiniciando o desafio";
@@ -422,6 +426,7 @@ bool realizarBatalha(pokemon &p1, pokemon p2, int &cont, double &secAdd) {
 
         secAdd += 2;
         cin >> proximaBatalha;
+        //proximaBatalha =1;
         } while(proximaBatalha != 1);
         
 
